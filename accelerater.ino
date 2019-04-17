@@ -45,10 +45,12 @@ void loop()
   x=imu.calcAccel(imu.ax)*10;
   y=imu.calcAccel(imu.ay)*10;
   z=imu.calcAccel(imu.az)*10;
-  Serial.print("x=");
+  /*Serial.print("x=");
   Serial.print(x);
   Serial.print(", y=");
   Serial.print(y);
   Serial.print(", z=");
+  Serial.println(z);*/
   Serial.println(z);
+  delay(500);
 }
