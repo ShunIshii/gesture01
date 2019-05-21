@@ -1,9 +1,12 @@
 #include <SparkFunLSM9DS1.h>
+#include "BluetoothSerial.h"
 
 #define LSM9DS1_M 0x1E
 #define LSM9DS1_AG 0x6B
+#define SW_PIN 7 //pin番号を指定する
 
 LSM9DS1 imu;
+BluetoothSerial SerialBT;
 
 float x,y,z;
 uint16_t connectionState = 0;
@@ -11,7 +14,9 @@ uint16_t connectionState = 0;
 void setup()
 {
   Serial.begin(115200);
-
+  SerialBT.begin("ESP32"); //Bluetoothの名前を指定
+  pinMode(SW_PIN, INPUT);
+  
   imu.settings.device.commInterface = IMU_MODE_I2C;
   imu.settings.device.mAddress = LSM9DS1_M;
   imu.settings.device.agAddress = LSM9DS1_AG;
@@ -45,12 +50,13 @@ void loop()
   x=imu.calcAccel(imu.ax)*10;
   y=imu.calcAccel(imu.ay)*10;
   z=imu.calcAccel(imu.az)*10;
-  /*Serial.print("x=");
-  Serial.print(x);
-  Serial.print(", y=");
-  Serial.print(y);
-  Serial.print(", z=");
-  Serial.println(z);*/
-  Serial.println(z);
+  if(digitalRead(SW_PIN) == 1){ //スイッチが押されたら1、離すと0
+    SerialBT.print("x=");
+    SerialBT.print(x);
+    SerialBT.print(", y=");
+    SerialBT.print(y);
+    SerialBT.print(", z=");
+    SerialBT.println(z);
+  }
   delay(500);
 }
