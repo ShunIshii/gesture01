@@ -51,12 +51,11 @@ void loop()
   y=imu.calcAccel(imu.ay)*10;
   z=imu.calcAccel(imu.az)*10;
   if(digitalRead(SW_PIN) == 1){ //スイッチが押されたら1、離すと0
-    SerialBT.print("x=");
     SerialBT.print(x);
-    SerialBT.print(", y=");
+    SerialBT.print(",");
     SerialBT.print(y);
-    SerialBT.print(", z=");
+    SerialBT.print(",");
     SerialBT.println(z);
   }
-  delay(500);
+  delay(10);
 }
